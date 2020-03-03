@@ -28,15 +28,18 @@ class EntryCellTableViewCell: UITableViewCell {
         updateUI(averageHappiness: averageHappiness)
     }
     
-    func updateUI(averageHappiness: Int) {
+    @objc func updateUI(averageHappiness: Int) {
         guard let entry = entry else {return}
         titleLabel.text = entry.title
         isEnabled.isOn = entry.isIncluded
     
         //Update highOrLowerLabel after notifications
-        print(entry.happiness)
-        print(averageHappiness)
         higherOrLowerLabel.text = entry.happiness >= averageHappiness ? "Higher" : "Lower"
+    }
+    
+    func createObserver() {
+        // Default if the singleton of Notificaiton center. Use it to make sure you are using the same instance
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUI), name: notificationKey, object: nil)
     }
     
     // MARK: - Actions

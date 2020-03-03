@@ -20,7 +20,7 @@ class EntryController {
     }()
     
     //Called when we want to update our Entry
-    func updateEntry(entry: Entry) {
+    static func updateEntry(entry: Entry) {
         entry.isIncluded = !entry.isIncluded
     }
 }

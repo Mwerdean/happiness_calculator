@@ -8,7 +8,9 @@
 
 import UIKit
 
+/// Declaring a protocol and allowing it to use class level objects
 protocol EntryCellTableViewCellDelegate: class {
+    /// Creating a job that the boss, or tableViewCell, can tell our intern. or tableViewController, to do
     func switchToggledOn(cell: EntryCellTableViewCell)
 }
 
@@ -20,6 +22,8 @@ class EntryCellTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     var entry: Entry?
+    
+    /// Creating our intern
     weak var delegate: EntryCellTableViewCellDelegate?
     
     // MARK: - Helper Functions
@@ -38,12 +42,19 @@ class EntryCellTableViewCell: UITableViewCell {
     }
     
     func createObserver() {
-        // Default if the singleton of Notificaiton center. Use it to make sure you are using the same instance
+        /// Creating our person who will listen for our notification, then call recalculate Happiness
+        // Default if the singleton of Notification center. Use it to make sure you are using the same instance
         NotificationCenter.default.addObserver(self, selector: #selector(updateUI), name: notificationKey, object: nil)
+    }
+    
+    @objc func recalculateHappiness(notification: NSNotification) {
+        guard let averageHappiness = notification.object as? Int else {return}
+        updateUI(averageHappiness: averageHappiness)
     }
     
     // MARK: - Actions
     @IBAction func toggledIsIncluded(_ sender: Any) {
+        /// Telling our runner to go tell our intern to do something
         delegate?.switchToggledOn(cell: self)
     }
 }
